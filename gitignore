@@ -1,0 +1,26 @@
+# Arquivos temporários
+*.log
+*.tmp
+*.bak
+.DS_Store
+
+# Dados sensíveis (por segurança, mesmo que não estejam presentes na versão lite)
+.env
+*.credentials.json
+*.secret.json
+
+# Arquivos de sistema
+node_modules/
+dist/
+build/
+.cache/
+__pycache__/
+
+# Arquivos de execução locais
+*.sqlite
+*.db
+*.pid
+
+# Pastas padrão do n8n
+.files/
+.backup/
