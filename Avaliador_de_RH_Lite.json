@@ -29,10 +29,18 @@
               "fieldType": "dropdown",
               "fieldOptions": {
                 "values": [
-                  { "option": "Analista de Dados" },
-                  { "option": "Engenheiro de Dados" },
-                  { "option": "Desenvolvedor" },
-                  { "option": "Cientista de Dados" }
+                  {
+                    "option": "Analista de Dados"
+                  },
+                  {
+                    "option": "Engenheiro de Dados"
+                  },
+                  {
+                    "option": "Desenvolvedor"
+                  },
+                  {
+                    "option": "Cientista de Dados"
+                  }
                 ]
               }
             }
@@ -46,7 +54,10 @@
       "id": "244d87cc-877a-4080-bb9b-6ea44aa76540",
       "name": "On form submission",
       "type": "n8n-nodes-base.formTrigger",
-      "position": [1264, 976],
+      "position": [
+        1264,
+        976
+      ],
       "webhookId": "c0f02df1-9bf8-468f-a33d-e67655bfa920",
       "typeVersion": 2.2
     },
@@ -59,7 +70,10 @@
       "id": "edc0fdf1-9595-43d1-a850-a976d42c7dc1",
       "name": "Extract from File",
       "type": "n8n-nodes-base.extractFromFile",
-      "position": [1504, 1024],
+      "position": [
+        1504,
+        1024
+      ],
       "typeVersion": 1
     },
     {
@@ -91,8 +105,44 @@
       "id": "2c5c7f0b-d472-4748-9dbe-a0888e94e36c",
       "name": "Qualifications",
       "type": "@n8n/n8n-nodes-langchain.informationExtractor",
-      "position": [1760, 912],
+      "position": [
+        1760,
+        912
+      ],
       "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"telephone\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"city\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"birthdate\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value."
+        }
+      },
+      "id": "371c75df-2b06-46d1-8eb9-f48f445c0309",
+      "name": "Personal Data",
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "position": [
+        1760,
+        768
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "2a8b8d74-cdab-412b-9898-e8edf7d648fc",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        2176,
+        896
+      ],
+      "typeVersion": 3
     },
     {
       "parameters": {
@@ -108,31 +158,26 @@
       "id": "0644fc1c-afab-48f9-a148-cab763722adf",
       "name": "Summarization Chain",
       "type": "@n8n/n8n-nodes-langchain.chainSummarization",
-      "position": [2384, 1024],
+      "position": [
+        2384,
+        1024
+      ],
       "typeVersion": 2
     },
     {
       "parameters": {
         "mode": "combine",
-        "combineBy": "combineAll",
+        "combineBy": "combineByPosition",
         "options": {}
       },
-      "id": "2a8b8d74-cdab-412b-9898-e8edf7d648fc",
-      "name": "Merge",
+      "id": "42168ba0-8c2f-43d0-a92a-76defc2a0175",
+      "name": "Merge2",
       "type": "n8n-nodes-base.merge",
-      "position": [2176, 896],
-      "typeVersion": 3
-    },
-    {
-      "parameters": {
-        "schemaType": "manual",
-        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"vote\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"consideration\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}"
-      },
-      "id": "bbb1a5cf-dea8-4ede-a14a-12791b79e446",
-      "name": "Structured Output Parser",
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "position": [3104, 1344],
-      "typeVersion": 1.2
+      "position": [
+        2784,
+        1120
+      ],
+      "typeVersion": 3.1
     },
     {
       "parameters": {
@@ -150,23 +195,25 @@
       "id": "b30b9cbd-bffd-4a5b-8185-3334b9b2b8ad",
       "name": "HR Expert",
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
-      "position": [3008, 1120],
+      "position": [
+        3008,
+        1120
+      ],
       "typeVersion": 1.5
     },
     {
       "parameters": {
-        "text": "={{ $json.text }}",
         "schemaType": "manual",
-        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"telephone\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"city\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"birthdate\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}",
-        "options": {
-          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value."
-        }
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"vote\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"consideration\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}"
       },
-      "id": "371c75df-2b06-46d1-8eb9-f48f445c0309",
-      "name": "Personal Data",
-      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
-      "position": [1760, 768],
-      "typeVersion": 1
+      "id": "bbb1a5cf-dea8-4ede-a14a-12791b79e446",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        3104,
+        1344
+      ],
+      "typeVersion": 1.2
     },
     {
       "parameters": {
@@ -176,105 +223,142 @@
       "id": "9868642e-b8ee-4a7b-b6b8-55622159d8d8",
       "name": "Google Gemini Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "position": [1904, 1056],
+      "position": [
+        1904,
+        1056
+      ],
       "typeVersion": 1
-      /* credenciais removidas – configure no n8n após importar */
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "combineBy": "combineByPosition",
-        "options": {}
-      },
-      "id": "42168ba0-8c2f-43d0-a92a-76defc2a0175",
-      "name": "Merge2",
-      "type": "n8n-nodes-base.merge",
-      "position": [2784, 1120],
-      "typeVersion": 3.1
     }
   ],
   "pinData": {},
   "connections": {
-    "Merge": {
-      "main": [
-        [
-          { "node": "Summarization Chain", "type": "main", "index": 0 }
-        ]
-      ]
-    },
-    "Merge2": {
-      "main": [
-        [
-          { "node": "HR Expert", "type": "main", "index": 0 }
-        ]
-      ]
-    },
-    "HR Expert": {
-      "main": [
-        [
-          { "node": "Append row in sheet", "type": "main", "index": 0 }
-        ]
-      ]
-    },
-    "job roles": {
-      "main": [
-        [
-          { "node": "Merge2", "type": "main", "index": 1 }
-        ]
-      ]
-    },
-    "Personal Data": {
-      "main": [
-        [
-          { "node": "Merge", "type": "main", "index": 0 }
-        ]
-      ]
-    },
-    "Qualifications": {
-      "main": [
-        [
-          { "node": "Merge", "type": "main", "index": 1 }
-        ]
-      ]
-    },
     "Extract from File": {
       "main": [
         [
-          { "node": "Qualifications", "type": "main", "index": 0 },
-          { "node": "Personal Data", "type": "main", "index": 0 }
+          {
+            "node": "Qualifications",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Personal Data",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "On form submission": {
       "main": [
         [
-          { "node": "job roles", "type": "main", "index": 0 },
-          { "node": "Upload CV", "type": "main", "index": 0 },
-          { "node": "Extract from File", "type": "main", "index": 0 }
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personal Data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qualifications": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Summarization Chain": {
       "main": [
         [
-          { "node": "Merge2", "type": "main", "index": 0 }
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "HR Expert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HR Expert": {
+      "main": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
     "Google Gemini Chat Model": {
       "ai_languageModel": [
         [
-          { "node": "Summarization Chain", "type": "ai_languageModel", "index": 0 },
-          { "node": "Qualifications", "type": "ai_languageModel", "index": 0 },
-          { "node": "Personal Data", "type": "ai_languageModel", "index": 0 },
-          { "node": "HR Expert", "type": "ai_languageModel", "index": 0 }
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Qualifications",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Personal Data",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "HR Expert",
+            "type": "ai_languageModel",
+            "index": 0
+          }
         ]
       ]
     },
     "Structured Output Parser": {
       "ai_outputParser": [
         [
-          { "node": "HR Expert", "type": "ai_outputParser", "index": 0 }
+          {
+            "node": "HR Expert",
+            "type": "ai_outputParser",
+            "index": 0
+          }
         ]
       ]
     }
@@ -287,5 +371,9 @@
     "instanceId": "4366cb775f2bf6d988fcb0a2c0384aa7796c61533c958b977f3aba06a9eed12b"
   },
   "id": "F1grNHbtSFDryWDj",
-  "tags": [{ "name": "Versão Lite" }]
+  "tags": [
+    {
+      "name": "Versão Lite"
+    }
+  ]
 }
